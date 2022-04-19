@@ -219,6 +219,23 @@ function tableExists($table){
     return find_by_sql($sql);
 
    }
+   /*--------------------------------------------------------------*/
+   /* Function for Finding all product name
+   /* JOIN with categorie  and media database table
+   /*--------------------------------------------------------------*/
+   function join_product_table1($categorie_id){
+    global $db;
+    $c_id = remove_junk($db->escape($categorie_id));
+    $sql  =" SELECT p.id,p.name,p.quantity,p.buy_price,p.sale_price,p.media_id,p.date,c.name";
+   $sql  .=" AS categorie";
+   $sql  .=" FROM products p";
+   $sql  .=" LEFT JOIN categories c ON c.id = p.categorie_id";
+   $sql  .=" LEFT JOIN media m ON m.id = p.media_id";
+   $sql  .=" WHERE c.id = {$c_id} AND m.id = 1";
+   $sql  .=" ORDER BY p.id ASC";
+   return find_by_sql($sql);
+
+  }
   /*--------------------------------------------------------------*/
   /* Function for Finding all product name
   /* Request coming from ajax.php for auto suggest
